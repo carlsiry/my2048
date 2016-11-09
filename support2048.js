@@ -126,3 +126,15 @@ function noBlockHorizontal (row, col1, col2, board) {
     }
     return true;
 }
+
+function noBlockVertical (col, row1, row2, board) {
+    for(var i = row1+1; i < row2; i++) {
+        if (board[i][col] != 0) {
+            console.log("垂直方向 有 障碍");
+            return false;
+        }
+    }
+
+    console.log("垂直方向 没 障碍");
+    return true;
+}

@@ -148,7 +148,8 @@ function moveLeft () {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
                         continue;
-                    } else if (board[i][k] == board[i][j] && noBlockHorizontal(i, k, j, board)) {
+                    } 
+                    if (board[i][k] == board[i][j] && noBlockHorizontal(i, k, j, board)) {
                         // move
                         showMoveAnimation(i, j, i, k);
                         // add
@@ -186,12 +187,14 @@ function moveRight () {
                         showMoveAnimation(i, j, i, k);
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
+                        continue;
                     }
 
                     if (board[i][k] == board[i][j] && noBlockHorizontal(i, j, k, board)) {
                         showMoveAnimation(i, j, i, k);
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
+                        continue;
                     }
                 }
             }
@@ -199,35 +202,55 @@ function moveRight () {
     }
 
     setTimeout("updateBoardView()", 200);
-    return true;
+    return true;    
 }
 
 function moveUp () {
 
     // 1. 查询是否可以向上移动
     if (!canMoveUp(board)) {
+        console.log('不可以向上移动');
        return false; 
     }
+    console.log("可以移动");
     // 2. 移动
     for(var i = 0; i < 4; i++) {
         for(var j = 1; j < 4; j++) {
             if (board[j][i] != 0) {
                 for(var k = 0; k < j; k++) {
-                    if (board[k][i] == board[j][i] && noBlock()) {
-                        // statement
+                    if (board[k][i] == 0 && noBlockVertical(i, k, j, board)) {
+                        console.log('正在移动');
+                        showMoveAnimation(j, i, k, i);
+                        board[k][i] = board[j][i];
+                        board[j][i] = 0;
+                        continue; 
                     }
+
+                    if (board[k][i] == board[j][i] && noBlockVertical(i, k, j, board)) {
+                        showMoveAnimation(j, i, k, i);
+                        board[k][i] += board[j][i];
+                        board[j][i] = 0;  
+                        continue; 
+                    }
+
                 }
             }
         }
     }
 
 
+    setTimeout("updateBoardView()", 200);
+    return true;    
 }
 
-function moveDown (argument) {
+function moveDown () {
 
     // 1. 查询是否可以向下移动
-
+    if (!canMoveDown(board)) {
+        return false;
+    }
     // 2. 移动
 
+    setTimeout("updateBoardView()", 200);
+    return true;
 }
