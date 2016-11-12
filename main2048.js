@@ -84,7 +84,7 @@ function generateOneNumber () {
     }
 
     // 随机生成一个数字  2 || 4
-    var randNumber = Math.random() < 0.5 ? 2 : 4;
+    var randNumber = Math.random() < 0.7 ? 2 : 4;
 
     // 在随机位置显示随机数字
     board[randx][randy] = randNumber;
@@ -136,12 +136,12 @@ function moveLeft () {
     } 
 
     // moveLeft
-    for(var i = 0; i < 4; i++) {
+    for(let i = 0; i < 4; i++) {
 
-        for(var j = 1; j < 4; j++) {
+        for(let j = 1; j < 4; j++) {
             if(board[i][j] != 0) {
 
-                for (var k = 0; k < j; k++) {
+                for (let k = 0; k < j; k++) {
                     if (board[i][k] == 0 && noBlockHorizontal(i, k, j, board)) {
                         // move
                         showMoveAnimation(i, j, i, k);
@@ -178,10 +178,10 @@ function moveRight () {
     }
 
     // 向右移动
-    for(var i = 0; i < 4; i++) {
-        for(var j = 2; j >= 0; j--) {
+    for(let i = 0; i < 4; i++) {
+        for(let j = 2; j >= 0; j--) {
             if (board[i][j] != 0) {
-                for(var k = 3; k >j; k--) {
+                for(let k = 3; k >j; k--) {
 
                     if (board[i][k] == 0 && noBlockHorizontal(i, j, k, board)) {
                         showMoveAnimation(i, j, i, k);
@@ -214,10 +214,10 @@ function moveUp () {
     }
     console.log("可以移动");
     // 2. 移动
-    for(var i = 0; i < 4; i++) {
-        for(var j = 1; j < 4; j++) {
+    for(let i = 0; i < 4; i++) {
+        for(let j = 1; j < 4; j++) {
             if (board[j][i] != 0) {
-                for(var k = 0; k < j; k++) {
+                for(let k = 0; k < j; k++) {
                     if (board[k][i] == 0 && noBlockVertical(i, k, j, board)) {
                         console.log('正在移动');
                         showMoveAnimation(j, i, k, i);
@@ -250,7 +250,26 @@ function moveDown () {
         return false;
     }
     // 2. 移动
-
+    for(let i = 0; i < 4; i++) {
+        for(let j = 2; j >= 0; j--) {
+            if (board[j][i] != 0) {
+                for(let k = 3; k > j; k--) {
+                    if (board[k][i] == 0 && noBlockVertical(i, j, k, board)) {
+                        showMoveAnimation(j, i, k, i);
+                        board[k][i] = board[j][i];
+                        board[j][i] = 0;
+                        continue; 
+                    }
+                    if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
+                        showMoveAnimation(j, i, k, i);
+                        board[k][i] += board[j][i];
+                        board[j][i] = 0;  
+                        continue; 
+                    }
+                }
+            }
+        }
+    }
     setTimeout("updateBoardView()", 200);
     return true;
 }
